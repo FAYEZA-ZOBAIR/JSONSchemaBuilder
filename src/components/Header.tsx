@@ -1,8 +1,9 @@
+import { Settings } from "lucide-react"
 const Header = () => {
   return (
     <header className="w-full backdrop-blur-md bg-white/10 border border-white/20 text-white py-4 px-8 shadow-xl rounded-2xl mb-8 flex justify-between items-center">
       {/* Left - Logo/Title */}
-      <h1 className="text-xl font-extrabold tracking-tight">🧠 JSON Schema Builder</h1>
+      <h1 className="text-xl font-extrabold tracking-tight flex gap-2 items-center"><Settings/> JSON Schema Builder</h1>
 
       {/* Right - Nav items */}
       <div className="flex items-center gap-6">

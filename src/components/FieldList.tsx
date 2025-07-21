@@ -61,6 +61,7 @@ function FieldList({ fields, onChange }: FieldListProps) {
           )}
         </div>
       ))}
+      {/* Button to add a new field at the end of the list */}
       <Button
         onClick={addField}
         className="bg-[#58A0C8] text-white hover:bg-[#4a89ab] transition mt-4 flex items-center gap-2"

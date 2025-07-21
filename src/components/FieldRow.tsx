@@ -11,6 +11,7 @@ import { Trash2 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import type { FieldType } from "@/components/types"
 
+{/* FieldRow component for rendering each field input row */}
 interface FieldRowProps {
   fieldKey: string
   fieldType: FieldType
@@ -43,6 +44,7 @@ function FieldRow({
           <SelectValue placeholder="Select type" />
         </SelectTrigger>
         <SelectContent className="bg-[#1a1b3a] text-white border-white/20">
+          <SelectItem value="nested">Nested</SelectItem>
           <SelectItem value="string">String</SelectItem>
           <SelectItem value="number">Number</SelectItem>
           <SelectItem value="boolean">Boolean</SelectItem>
@@ -50,9 +52,10 @@ function FieldRow({
           <SelectItem value="date">Date</SelectItem>
           <SelectItem value="null">Null</SelectItem>
           <SelectItem value="object">Object</SelectItem>
-          <SelectItem value="nested">Nested</SelectItem>
+          
         </SelectContent>
       </Select>
+      {/* Switch for required field */}
       <Switch
         checked={required}
         onCheckedChange={onRequiredChange}

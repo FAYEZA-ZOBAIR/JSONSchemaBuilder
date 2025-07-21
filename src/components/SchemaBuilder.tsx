@@ -1,32 +1,40 @@
+import { CheckCheck, CheckCircle, FileJson, Puzzle } from "lucide-react"
 import { useState } from "react"
 import FieldList from "./FieldList"
-import type { Field } from "./types"
-import { CheckCircle, FileJson } from "lucide-react"
+import type { Field, JsonSchema, JsonSchemaProperty } from "./types"
+
 
 function SchemaBuilder() {
   const [fields, setFields] = useState<Field[]>([])
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const buildSchema = (fields: Field[]): unknown => {
-    const result: Record<string, unknown> = {}
 
-    fields.forEach((field) => {
-      if (!field.key) return
+const buildSchema = (fields: Field[]): JsonSchema => {
+  const properties: Record<string, JsonSchemaProperty> = {}
+  const required: string[] = []
 
-      if (field.type === "nested") {
-        result[field.key] = {
-          type: "object",
-          required: field.required,
-          properties: buildSchema(field.children || []),
-        }
-      } else {
-        result[field.key] = field.required ? field.type : `${field.type}?`
-      }
-    })
+  fields.forEach((field) => {
+    if (!field.key) return
 
-    return result
+    if (field.required) {
+      required.push(field.key)
+    }
+
+    if (field.type === "nested") {
+      properties[field.key] = buildSchema(field.children || [])
+    } else {
+      properties[field.key] = { type: field.type }
+    }
+  })
+
+  return {
+    type: "object",
+    properties,
+    ...(required.length ? { required } : {}),
   }
+}
 
+{/* We are storing the generated schema in localStorage for demonstration purposes.*/} 
   const handleSubmit = () => {
     const schema = buildSchema(fields)
     localStorage.setItem("generatedSchema", JSON.stringify(schema, null, 2))
@@ -40,7 +48,7 @@ function SchemaBuilder() {
       <div className="w-full md:w-1/2">
         <div className="bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg p-6">
           <h2 className="text-3xl font-extrabold text-white mb-6 flex items-center gap-3">
-            🧩 JSON Schema Builder
+            <Puzzle className="w-6 h-6 text-white-500 fill-[#113F67]" /> JSON Schema Builder
           </h2>
           <FieldList fields={fields} onChange={setFields} />
 
@@ -56,7 +64,7 @@ function SchemaBuilder() {
         {/* Success Toast */}
         {showSuccess && (
           <div className="fixed top-6 right-6 z-50 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-2">
-            ✅ <span>Schema submitted successfully!</span>
+            <CheckCheck/> <span>Schema submitted successfully!</span>
           </div>
         )}
       </div>

@@ -7,8 +7,8 @@ function SchemaBuilder() {
   const [fields, setFields] = useState<Field[]>([])
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const buildSchema = (fields: Field[]): any => {
-    const result: Record<string, any> = {}
+  const buildSchema = (fields: Field[]): unknown => {
+    const result: Record<string, unknown> = {}
 
     fields.forEach((field) => {
       if (!field.key) return

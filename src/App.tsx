@@ -1,4 +1,3 @@
-import React from 'react'
 import SchemaBuilder from './components/SchemaBuilder'
 import Header from './components/Header'
 
